@@ -1,0 +1,6 @@
+{% extends 'layout.html' %}
+{% block body %}
+{% for task in tasks %}
+{{task.name}}
+{% endfor %}
+{% endblock body %}
