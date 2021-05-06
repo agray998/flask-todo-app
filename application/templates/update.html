@@ -1,7 +1,9 @@
 {% extends 'layout.html' %}
 {% block body %}
+<h2> Update {{task}} </h2>
+<br>
 <div class='form'>
-            <form method='PUT' action=''>
+            <form method='POST' action=''>
                 {{ form.hidden_tag() }}
                 {{ form.task_name.label }} {{ form.task_name }}
                 <br>

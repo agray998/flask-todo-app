@@ -1,6 +1,6 @@
 from application import app, db, AddTask, UpdateTask
 from application.models import Tasks
-from flask import render_template, request
+from flask import render_template, request, redirect, url_for
 
 @app.route('/home')
 def home():
@@ -17,23 +17,29 @@ def add():
         newtask = Tasks(name = task_name, desc = task_desc, status = task_stat)
         db.session.add(newtask)
         db.session.commit()
-        return "Added new task to database"
+        return redirect(url_for('home'))
     return render_template('add.html', form=form)
 
-@app.route('/update-<tid>', methods=['GET','PUT'])
+@app.route('/update-list')
+def updatelist():
+    tasks = Tasks.query.all()
+    return render_template('uplist.html', tasks=tasks)
+
+@app.route('/update/<int:tid>', methods=['GET','POST'])
 def update(tid):
+    task = Tasks.query.filter_by(id=tid).first()
     form = UpdateTask()
-    if request.method == 'PUT':
+    if request.method == 'POST':
         task_name = form.task_name.data
         task_desc = form.task_desc.data
         task_stat = form.task_stat.data
-        tasktoupdate = Tasks(id=tid)
+        tasktoupdate = Tasks.query.filter_by(id=tid).first()
         tasktoupdate.name = task_name
         tasktoupdate.desc = task_desc
         tasktoupdate.status = task_stat
         db.session.commit()
-        return "Updated task"
-    return render_template('update.html', form=form)
+        return redirect(url_for('home'))
+    return render_template('update.html', form=form, task=task.name)
 
 @app.route('/complete')
 def complete():

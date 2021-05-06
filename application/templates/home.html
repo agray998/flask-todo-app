@@ -1,6 +1,9 @@
 {% extends 'layout.html' %}
 {% block body %}
+<h2> Active tasks: </h2>
+<br>
 {% for task in tasks %}
-{{task.name}}
+{{task.name}} | {{task.desc}}
+<br>
 {% endfor %}
 {% endblock body %}
