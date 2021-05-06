@@ -1,0 +1,9 @@
+{% extends 'layout.html' %}
+{% block body %}
+<h2> Select a Task to Delete: </h2>
+<br>
+{% for task in tasks %}
+<a href="{{ url_for('delete',tid=task.id) }}"> {{task.name}} </a>
+<br>
+{% endfor %}
+{% endblock body %}

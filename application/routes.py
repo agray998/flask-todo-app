@@ -20,7 +20,7 @@ def add():
         return redirect(url_for('home'))
     return render_template('add.html', form=form)
 
-@app.route('/update-list')
+@app.route('/update')
 def updatelist():
     tasks = Tasks.query.all()
     return render_template('uplist.html', tasks=tasks)
@@ -46,33 +46,16 @@ def complete():
     completed_tasks = Tasks.query.filter_by(status='complete').all()
     return render_template('complete.html', tasks = completed_tasks)
 
-@app.route('/read')
-def read():
-    all_tasks = Tasks.query.all()
-    t_string = ""
-    for task in all_tasks:
-        t_string += "<br>"+ f"{task.name}| {task.desc}| {task.status}"
-    return t_string
-
-@app.route('/update/status/<tid>-<tstat>')
-def updatestat(tid, tstat):
-    task = Tasks.query.get(tid)
-    task.status = tstat
-    db.session.commit()
-    return task.status
-
-@app.route('/update/desc/<tid>-<tdesc>')
-def updatedesc(tid, tdesc):
-    task = Tasks.query.get(tid)
-    task.desc = tdesc
-    db.session.commit()
-    return task.desc
+@app.route('/delete')
+def deletelist():
+    tasks = Tasks.query.all()
+    return render_template('delist.html', tasks=tasks)
 
 @app.route('/delete/<tid>')
 def delete(tid):
     task_to_delete = Tasks.query.get(tid)
     db.session.delete(task_to_delete)
     db.session.commit()
-    return f"Deleted task number {tid}"
+    return redirect(url_for('home'))
 
 
