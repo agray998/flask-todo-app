@@ -26,3 +26,4 @@ class UpdateTask(FlaskForm):
     submit = SubmitField('Update Task')
 
 from application import routes
+from application import models
