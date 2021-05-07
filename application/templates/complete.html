@@ -3,7 +3,7 @@
 <h2> Completed Tasks </h2>
 <br>
 {% for task in tasks %}
-{{task.name}} | {{task.desc}}
+{{task.name}} | {{task.desc}}                         <a href="{{ url_for('set_incomplete',tid=task.id) }}"> Mark as Incomplete </a>
 <br>
 {% endfor %}
 {% endblock body %}

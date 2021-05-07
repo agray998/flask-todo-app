@@ -1,7 +1,8 @@
 from flask import Flask, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField
+from wtforms import StringField, SubmitField, SelectField
+from wtforms.validators import DataRequired
 import os
 
 app = Flask(__name__)
@@ -13,15 +14,15 @@ app.config['SECRET_KEY'] = os.getenv('secretkey')
 db = SQLAlchemy(app)
 
 class AddTask(FlaskForm):
-    task_name = StringField('Task name')
-    task_desc = StringField('Description')
-    task_stat = StringField('Status')
+    task_name = StringField('Task name', validators=[DataRequired()])
+    task_desc = StringField('Description', default = 'Add a description')
+    task_stat = SelectField('Status', choices=[('complete','Complete'), ('incomplete', 'Incomplete')])
     submit = SubmitField('Add Task')
 
 class UpdateTask(FlaskForm):
-    task_name = StringField('Task name')
-    task_desc = StringField('Description')
-    task_stat = StringField('Status')
+    task_name = StringField('Task name', validators=[DataRequired()])
+    task_desc = StringField('Description', default = 'Add a description')
+    task_stat = SelectField('Status', choices=[('complete','Complete'), ('incomplete', 'Incomplete')])
     submit = SubmitField('Update Task')
 
 from application import routes

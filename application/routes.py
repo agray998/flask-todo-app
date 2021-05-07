@@ -51,11 +51,24 @@ def deletelist():
     tasks = Tasks.query.all()
     return render_template('delist.html', tasks=tasks)
 
-@app.route('/delete/<tid>')
+@app.route('/delete/<int:tid>')
 def delete(tid):
     task_to_delete = Tasks.query.get(tid)
     db.session.delete(task_to_delete)
     db.session.commit()
+    return redirect(url_for('deletelist'))
+
+@app.route('/set-complete/<int:tid>')
+def set_complete(tid):
+    task_to_set = Tasks.query.get(tid)
+    task_to_set.status = 'complete'
+    db.session.commit()
     return redirect(url_for('home'))
 
+@app.route('/set-incomplete/<int:tid>')
+def set_incomplete(tid):
+    task_to_set = Tasks.query.get(tid)
+    task_to_set.status = 'incomplete'
+    db.session.commit()
+    return redirect(url_for('complete'))
 

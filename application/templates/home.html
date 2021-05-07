@@ -3,7 +3,7 @@
 <h2> Active tasks: </h2>
 <br>
 {% for task in tasks %}
-{{task.name}} | {{task.desc}}
+{{task.name}} | {{task.desc}}                                      <a href="{{ url_for('set_complete',tid=task.id) }}"> Mark as Complete  </a>
 <br>
 {% endfor %}
 {% endblock body %}
